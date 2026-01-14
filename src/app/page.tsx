@@ -3,10 +3,9 @@
 import {
   DynamicContextProvider,
   DynamicWidget,
-  getAuthToken,
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
-import React from "react"
+import React from "react";
 import Navbar from "../components/navbar";
 
 const DynamicApp = () => {
@@ -26,22 +25,19 @@ const DynamicApp = () => {
       </div>
     );
   }
-  const dynamicJwtToken = getAuthToken(); // Returns JWT or undefined if not logged in
-  console.log(dynamicJwtToken);
-  
 
   return (
     <div className="app-container">
-      <Navbar username={user.alias || user.email || ""} onLogOut={handleLogOut} />
-      <div className="main-content">
-        {/* Main content area */}
-      </div>
+      <Navbar
+        username={user.alias || user.email || ""}
+        onLogOut={handleLogOut}
+      />
+      <div className="main-content">{/* Main content area */}</div>
     </div>
   );
 };
 
 export default function App() {
-
   return (
     <DynamicContextProvider
       settings={{
@@ -51,8 +47,8 @@ export default function App() {
             // onAuthSuccess it not being called after login with gmail auth
             console.log("Auth success");
             window.history.replaceState(null, "", "/");
-          }
-        }
+          },
+        },
       }}
     >
       <DynamicApp />
