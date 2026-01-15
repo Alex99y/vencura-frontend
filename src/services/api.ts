@@ -1,7 +1,7 @@
 export class ApiService {
   private readonly headers: Headers;
   private readonly apiUrl: string;
-  constructor(private readonly token: string) {
+  constructor(private readonly token: string, private readonly chain: string = "sepolia") {
     this.apiUrl =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
     this.headers = new Headers();
@@ -66,7 +66,7 @@ export class ApiService {
   }
 
   async getAccountBalance(address: string) {
-    const response = await fetch(`${this.apiUrl}/accounts/${address}/balance`, {
+    const response = await fetch(`${this.apiUrl}/account/${address}/balance?chain=${this.chain}`, {
       headers: this.headers,
     });
     if (!response.ok) {
@@ -98,7 +98,7 @@ export class ApiService {
           to,
           amount,
         },
-        chain: "sepolia",
+        chain: this.chain,
         address,
         password,
       }),
