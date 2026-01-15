@@ -7,6 +7,7 @@ import {
 } from "@dynamic-labs/sdk-react-core";
 import React from "react";
 import { Table, Container, Button } from "react-bootstrap";
+import { useRouter } from "next/navigation";
 import Navbar from "../../components/navbar";
 import AccountModal from "../../components/modal";
 import { ApiService } from "../../services/api";
@@ -19,6 +20,7 @@ interface Account {
 
 const AccountsPageContent = () => {
   const { user, handleLogOut } = useDynamicContext();
+  const router = useRouter();
   const [accounts, setAccounts] = React.useState<Account[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -130,7 +132,18 @@ const AccountsPageContent = () => {
               <tbody>
                 {accounts.map((account, index) => (
                   <tr key={account.address || index}>
-                    <td>{account.address}</td>
+                    <td>
+                      <a
+                        href={`/account/${account.address}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push(`/account/${account.address}`);
+                        }}
+                        style={{ cursor: "pointer", color: "#0d6efd" }}
+                      >
+                        {account.address}
+                      </a>
+                    </td>
                     <td>{account.alias || "N/A"}</td>
                     <td>{account.updatedAt || "N/A"}</td>
                     <td>
@@ -139,10 +152,6 @@ const AccountsPageContent = () => {
                         onClick={() => showEditAccountModal(account)}
                       >
                         Edit
-                      </Button>
-                      <span className="mx-2">|</span>
-                      <Button variant="danger" disabled>
-                        Delete
                       </Button>
                     </td>
                   </tr>

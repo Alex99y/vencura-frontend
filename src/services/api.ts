@@ -77,11 +77,11 @@ export class ApiService {
     return response.json();
   }
 
-  async signMessage(message: string, address: string) {
+  async signMessage(message: string, address: string, password: string) {
     const response = await fetch(`${this.apiUrl}/sign-message`, {
       headers: this.headers,
       method: "POST",
-      body: JSON.stringify({ message, address }),
+      body: JSON.stringify({ message, address, password }),
     });
     if (!response.ok) {
       throw new Error(`Failed to sign message: ${response.statusText}`);
@@ -89,11 +89,19 @@ export class ApiService {
     return response.json();
   }
 
-  async signTransaction(transaction: string, address: string) {
+  async signTransaction(address: string, password: string, to: string, amount: number) {
     const response = await fetch(`${this.apiUrl}/sign-transaction`, {
       method: "POST",
       headers: this.headers,
-      body: JSON.stringify({ transaction, address }),
+      body: JSON.stringify({
+        transaction: {
+          to,
+          amount,
+        },
+        chain: "sepolia",
+        address,
+        password,
+      }),
     });
     if (!response.ok) {
       throw new Error(`Failed to sign transaction: ${response.statusText}`);
