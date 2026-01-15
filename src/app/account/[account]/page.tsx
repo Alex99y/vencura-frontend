@@ -41,7 +41,8 @@ const AccountPageContent = () => {
   const [error, setError] = React.useState<string | null>(null);
   const [signing, setSigning] = React.useState(false);
   const [showSignMessageModal, setShowSignMessageModal] = React.useState(false);
-  const [showSignTransactionModal, setShowSignTransactionModal] = React.useState(false);
+  const [showSignTransactionModal, setShowSignTransactionModal] =
+    React.useState(false);
 
   const fetchAccountData = React.useCallback(async () => {
     if (!user || !accountAddress) return;
@@ -77,7 +78,10 @@ const AccountPageContent = () => {
     fetchAccountData();
   }, [fetchAccountData]);
 
-  const handleSignMessage = async (message: string | { toAddress: string; amount: string }, password: string) => {
+  const handleSignMessage = async (
+    message: string | { toAddress: string; amount: string },
+    password: string
+  ) => {
     if (typeof message !== "string") {
       return;
     }
@@ -90,11 +94,16 @@ const AccountPageContent = () => {
         throw new Error("No authentication token available");
       }
       const apiService = new ApiService(dynamicJwtToken);
-      const result = await apiService.signMessage(message, accountAddress, password);
+      const result = await apiService.signMessage(
+        message,
+        accountAddress,
+        password
+      );
       return result;
     } catch (err) {
       console.error("Error signing message:", err);
-      const errorMessage = err instanceof Error ? err.message : "Failed to sign message";
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to sign message";
       setError(errorMessage);
       throw err;
     } finally {
@@ -102,7 +111,10 @@ const AccountPageContent = () => {
     }
   };
 
-  const handleSignTransaction = async (data: string | { toAddress: string; amount: string }, password: string) => {
+  const handleSignTransaction = async (
+    data: string | { toAddress: string; amount: string },
+    password: string
+  ) => {
     if (typeof data === "string") {
       return;
     }
@@ -115,10 +127,16 @@ const AccountPageContent = () => {
         throw new Error("No authentication token available");
       }
       const apiService = new ApiService(dynamicJwtToken);
-      const result = await apiService.signTransaction(accountAddress, password, data.toAddress, Number(data.amount));
+      const result = await apiService.signTransaction(
+        accountAddress,
+        password,
+        data.toAddress,
+        Number(data.amount)
+      );
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to sign transaction";
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to sign transaction";
       setError(errorMessage);
       throw err;
     } finally {
@@ -144,7 +162,10 @@ const AccountPageContent = () => {
         <Container>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h1>Account Details</h1>
-            <Button variant="secondary" onClick={() => router.push("/accounts")}>
+            <Button
+              variant="secondary"
+              onClick={() => router.push("/accounts")}
+            >
               Back to Accounts
             </Button>
           </div>
@@ -281,4 +302,3 @@ export default function AccountPage() {
     </DynamicContextProvider>
   );
 }
-

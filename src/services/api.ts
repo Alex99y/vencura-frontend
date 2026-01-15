@@ -1,7 +1,10 @@
 export class ApiService {
   private readonly headers: Headers;
   private readonly apiUrl: string;
-  constructor(private readonly token: string, private readonly chain: string = "sepolia") {
+  constructor(
+    private readonly token: string,
+    private readonly chain: string = "sepolia"
+  ) {
     this.apiUrl =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
     this.headers = new Headers();
@@ -66,9 +69,12 @@ export class ApiService {
   }
 
   async getAccountBalance(address: string) {
-    const response = await fetch(`${this.apiUrl}/account/${address}/balance?chain=${this.chain}`, {
-      headers: this.headers,
-    });
+    const response = await fetch(
+      `${this.apiUrl}/account/${address}/balance?chain=${this.chain}`,
+      {
+        headers: this.headers,
+      }
+    );
     if (!response.ok) {
       throw new Error(
         `Failed to fetch account balance: ${response.statusText}`
@@ -89,7 +95,12 @@ export class ApiService {
     return response.json();
   }
 
-  async signTransaction(address: string, password: string, to: string, amount: number) {
+  async signTransaction(
+    address: string,
+    password: string,
+    to: string,
+    amount: number
+  ) {
     const response = await fetch(`${this.apiUrl}/sign-transaction`, {
       method: "POST",
       headers: this.headers,

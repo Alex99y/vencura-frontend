@@ -8,7 +8,10 @@ import Form from "react-bootstrap/Form";
 interface SignModalProps {
   show: boolean;
   onHide: () => void;
-  onSubmit: (data: string | { toAddress: string; amount: string }, password: string) => Promise<unknown>;
+  onSubmit: (
+    data: string | { toAddress: string; amount: string },
+    password: string
+  ) => Promise<unknown>;
   loading?: boolean;
   title: string;
   buttonText: string;
@@ -64,7 +67,10 @@ export default function SignModal({
       if (type === "message") {
         result = await onSubmit(message.trim(), password);
       } else {
-        result = await onSubmit({ toAddress: toAddress.trim(), amount: amount.trim() }, password);
+        result = await onSubmit(
+          { toAddress: toAddress.trim(), amount: amount.trim() },
+          password
+        );
       }
       // Store success result
       setSuccess(result);
@@ -108,7 +114,10 @@ export default function SignModal({
           {success !== null && (
             <div className="alert alert-success" role="alert">
               <strong>Success!</strong>
-              <pre className="mb-0 mt-2" style={{ whiteSpace: "pre-wrap", fontSize: "0.875rem" }}>
+              <pre
+                className="mb-0 mt-2"
+                style={{ whiteSpace: "pre-wrap", fontSize: "0.875rem" }}
+              >
                 {JSON.stringify(success, null, 2)}
               </pre>
             </div>
@@ -198,4 +207,3 @@ export default function SignModal({
     </Modal>
   );
 }
-
